@@ -1,0 +1,114 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-datepicker.min.css}">
+    <title th:text="#{car.profile.page.title}"> ordering car </title>
+    <script type="text/css" src="css/styles.css"></script>
+</head>
+<body>
+<div th:insert="header :: header"></div>
+<div class="container">
+    <div>
+        <span th:text="${car.model}"> Model </span>
+        <span th:text="${car.cost}"> Cost </span>
+    </div>
+    <div>
+        <a th:href="@{/profile/{id}(id=${car.owner.id})}">
+            <span th:text="${car.owner.firstName} + ' ' + ${car.owner.lastName}"> Owner </span>
+        </a>
+    </div>
+    <!-- Images -->
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel"
+         th:if="${!car.fileUrlList.empty}">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li th:each="file : ${car.fileUrlList.subList(1,car.fileUrlList.size())}"
+                data-target="#carouselExampleIndicators" th:data-slide-to="${car.fileUrlList.indexOf(file)}"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img th:src="${car.fileUrlList.get(0)}" alt="File" src="..." class="center-block img-fluid"
+                     style="width: 100%; height: auto; max-height: 724px">
+            </div>
+            <div class="carousel-item "
+                 th:each="file : ${car.fileUrlList.subList(1,car.fileUrlList.size())}">
+                <img th:src="${file}" class="center-block img-fluid"
+                     style="width: 100%; height: auto; max-height: 724px" alt="File"
+                     src="...">
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev"
+           th:if="${car.fileUrlList.size()>1}">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next"
+           th:if="${car.fileUrlList.size()>1}">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <form th:action="@{/cars/{id}/order(id=${car.id})}" th:method="post" th:object="${orderForm}">
+
+        <div class="input-daterange input-group" id="datepicker">
+            <input type="text" class="input-sm form-control" name="start" id="start" autocomplete="off"
+                   th:field="*{start}"/>
+            <span class="input-group-addon">to</span>
+            <input type="text" class="input-sm form-control" name="end" id="end" autocomplete="off"
+                   th:field="*{end}"/>
+            <ul th:if="${#fields.hasErrors('*{start}')}">
+                <li th:each="err : ${#fields.errors('*{start}')}">
+                    <small th:text="${err}">Input is incorrect</small>
+                </li>
+            </ul>
+        </div>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+
+            var dates = [];
+            let s = 'a';
+            /*[# th:each="date : ${car.disabledDates}"]*/
+            s = /*[[${date}]]*/ 'a';
+            s.toString().replace('\\', '');
+            dates.push(s);
+
+            /*[/]*/
+
+            $('#datepicker').datepicker({
+                language: "ru",
+                format: 'yyyy-mm-dd',
+                startDate: Date.now().toString(),
+                todayHighlight: true,
+                datesDisabled: dates
+            });
+
+            /*]]>*/
+        </script>
+        <input type="submit" th:value="#{car.profile.create}" value="create Order" class="btn btn-primary" id="submit"/>
+    </form>
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=1ddce913-73aa-492c-847e-547e8e6e7362"
+            type="text/javascript"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/map.js"></script>
+    <script type="text/css" src="css/styles.css"></script>
+    <title th:text="#{map.page.title}"></title>
+</head>
+<body>
+<div th:insert="header :: header"></div>
+<div class="container">
+    <div id="map" style="width: 600px; height: 400px"></div>
+</div>
+</body>
+</html>

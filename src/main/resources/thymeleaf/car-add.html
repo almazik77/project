@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="#{car.add.page.title}"></title>
+    <script type="text/javascript" th:src="@{/js/files.js}"></script>
+    <script type="text/css" src="css/styles.css"></script>
+</head>
+<body>
+<div th:insert="header :: header"></div>
+<div class="container">
+    <h1 th:text="#{car.add.title}"></h1>
+    <br>
+    <form th:action="@{/cars/add}" method="post" enctype="multipart/form-data" th:object="${addCarForm}">
+        <div class="form-group">
+            <label for="model" th:text="#{car.add.model}"> </label>
+            <input name="model" type="text" id="model" class="form-control"
+                   th:field="*{model}">
+        </div>
+
+        <div class="form-group">
+            <label for="cost" th:text="#{car.add.cost}"> </label>
+            <input id="cost" name="cost" type="text" class="form-control" th:field="*{cost}">
+        </div>
+        <div class="form-group">
+            <a href="https://yandex.ru/map-constructor/location-tool/" target="_blank">
+                <span th:text="#{car.add.link.toget.coord}"></span>
+            </a>
+            <label for="coordinates"></label>
+            <input id="coordinates" name="coordinates" type="text" class="form-control" th:field="*{coordinates}">
+        </div>
+        <div class="form-group">
+            <label for="uploadingFiles" th:text="#{files.add.files}"> </label>
+            <input type="file" id="uploadingFiles" name="uploadingFiles" onchange="updateSize();" multiple
+                   required class="form-control-file"/>
+            <span th:text="#{files.add.files.count}"></span> <span id="fileNum">0</span>;
+            <span th:text="#{files.add.files.size}"></span> <span id="fileSize">0</span>
+        </div>
+        <input type="hidden" id="file_hidden">
+
+        <input type="submit" placeholder="dobavit'" class="btn btn-primary">
+    </form>
+</div>
+</body>
+</html>
+

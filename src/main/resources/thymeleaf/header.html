@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<body>
+<div th:fragment="header">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#"><span th:text="#{header.brand}"> </span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="/" th:text="#{header.toMainPage}"></a>
+                <a class="nav-item nav-link" href="/profile" th:text="#{header.profile}"></a>
+                <a class="nav-item nav-link" href="/cars" th:text="#{header.cars}">Машины</a>
+                <a class="nav-item nav-link" href="/map" th:text="#{header.map}">Карта</a>
+                <a class="nav-item nav-link" href="/orders" th:text="#{header.orders}">Бронирования</a>
+            </div>
+        </div>
+        <div sec:authorize="isAnonymous()">
+            <ul class="nav navbar-nav navbar-right">
+                <li sec:authorize="${isAnonymous()}" th:if="${#authentication?.isAuthenticated()}">
+                    <a href="/signUp" class="nav-item nav-link">
+                        <span class="glyphicon glyphicon-user"></span>
+                        <span th:text="#{header.signUp}"> </span>
+                    </a>
+                </li>
+                <li sec:authorize="${isAnonymous()}" th:if="${#authentication?.isAuthenticated()}">
+                    <a href="/signIn" class="nav-item nav-link">
+                        <span class="glyphicon glyphicon-log-in"></span>
+                        <span th:text="#{header.signIn}"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div sec:authorize="isFullyAuthenticated()">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item nav-link" th:if="${#authentication?.isAuthenticated()}">
+                    <a href="javascript: document.logoutForm.submit()" role="menuitem" class="nav-item nav-link">
+                        <span th:text="#{header.logout}"></span> (<span th:text="${#authentication.getName()}"></span>)
+                    </a>
+                    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                        <input hidden type="submit" value="Sign Out"/>
+                    </form>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+</div>
+</form>
+</body>
+</html>

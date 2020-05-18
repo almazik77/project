@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="#{signUp.page.title}">Sign Up </title>
+    <script type="text/css" src="css/styles.css"></script>
+    <script type="text/javascript" th:src="@{/js/files.js}"></script>
+</head>
+<body>
+<div th:insert="header :: header"></div>
+<div class="container">
+    <form th:action="@{/signUp}" th:method="post" th:object="${signUpForm}" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="firstName" th:text="#{profile.firstName}"> First name : </label>
+            <input type="text" name="firstName" id="firstName" class="form-control" required
+                   placeholder="enter first name"
+                   th:field="*{firstName}"/>
+            <ul th:if="${#fields.hasErrors('*{firstName}')}">
+                <li th:each="err : ${#fields.errors('*{firstName}')}">
+                    <small th:text="${err}">Input is incorrect</small>
+                </li>
+            </ul>
+        </div>
+        <div class="form-group">
+            <label for="lastName" th:text="#{profile.lastName}"> Last name :</label>
+            <input id="lastName" type="text" name="lastName" class="form-control" required
+                   th:field="*{lastName}"/>
+            <ul th:if="${#fields.hasErrors('*{lastName}')}">
+                <li th:each="err : ${#fields.errors('*{lastName}')}">
+                    <small th:text="${err}">Input is incorrect</small>
+                </li>
+            </ul>
+        </div>
+        <div class="form-group">
+            <label for="email" th:text="#{profile.email}"> email :</label>
+            <input type="email" name="email" id="email" required class="form-control"
+                   th:field="*{email}"/>
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <ul th:if="${#fields.hasErrors('*{email}')}">
+                <li th:each="err : ${#fields.errors('*{email}')}">
+                    <small th:text="${err}">Input is incorrect</small>
+                </li>
+            </ul>
+        </div>
+        <div class="form-group">
+            <label for="password" th:text="#{signIn.password}"> Password:</label>
+            <input type="password" name="password" id="password" required class="form-control"
+                   th:field="*{password}"/>
+            <ul th:if="${#fields.hasErrors('*{password}')}">
+                <li th:each="err : ${#fields.errors('*{password}')}">
+                    <small th:text="${err}">Input is incorrect</small>
+                </li>
+            </ul>
+        </div>
+
+        <div class="form-group">
+            <label for="uploadingFiles" th:text="#{files.add.files}"> </label>
+            <input type="file" id="uploadingFiles" name="uploadingFiles" onchange="updateSize();" multiple
+                    class="form-control-file"/>
+            <span th:text="#{files.add.files.count}"></span> <span id="fileNum">0</span>;
+            <span th:text="#{files.add.files.size}"></span> <span id="fileSize">0</span>
+        </div>
+        <input type="hidden" id="file_hidden">
+        <input type="submit" th:value="#{signUp.submit}" value="Sign Up" class="btn btn-primary"/>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+POST http://localhost:8080/api/login
+Content-Type: application/json
+
+{
+  "email": "musin.almaz33@gmail.com",
+  "password": "123"
+}
+
+###
+
+GET http://localhost:8080/api/cars
+Content-Type: application/json
+
+{
+  "token": "2KzCI1sBaK"
+}
